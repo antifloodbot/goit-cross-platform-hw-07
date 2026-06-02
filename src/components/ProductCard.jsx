@@ -1,15 +1,15 @@
-import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { colors } from '@/constants/colors';
 import CustomButton from './CustomButton';
 
-export default function ProductCard({ title, price, imageUrl, onAddToCart }) {
+export default function ProductCard({ title, price, imageUrl, onPress, onAddToCart }) {
   const { width } = useWindowDimensions();
   // Keep cards fluid on small screens while capping their width on wider layouts.
   const cardWidth = Math.min(width - 32, 420);
 
   return (
-    <View style={[styles.card, { width: cardWidth }]}>
+    <Pressable style={[styles.card, { width: cardWidth }]} onPress={onPress}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
 
       <View style={styles.info}>
@@ -22,7 +22,7 @@ export default function ProductCard({ title, price, imageUrl, onAddToCart }) {
       <View style={styles.action}>
         <CustomButton title="Add" onPress={onAddToCart} />
       </View>
-    </View>
+    </Pressable>
   );
 }
 

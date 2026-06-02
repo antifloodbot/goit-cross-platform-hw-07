@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import BottomNavigation from '@/components/BottomNavigation';
 import CategoryChip from '@/components/CategoryChip';
 import Header from '@/components/Header';
 import ProductCard from '@/components/ProductCard';
 import SearchBar from '@/components/SearchBar';
 import { colors } from '@/constants/colors';
+import { SCREENS } from '@/navigation/screens';
 
 const categories = ['All', 'Latte', 'Cappuccino', 'Espresso'];
 
@@ -45,10 +45,9 @@ const coffees = [
   },
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [searchValue, setSearchValue] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-  const [activeTab, setActiveTab] = useState('Home');
   const [selectedProduct, setSelectedProduct] = useState('');
 
   const visibleCoffees = coffees.filter((coffee) => {
@@ -99,6 +98,14 @@ export default function HomeScreen() {
                 title={coffee.title}
                 price={coffee.price}
                 imageUrl={coffee.imageUrl}
+                onPress={() =>
+                  navigation.navigate(SCREENS.PRODUCT_DETAILS, {
+                    id: coffee.id,
+                    title: coffee.title,
+                    price: coffee.price,
+                    imageUrl: coffee.imageUrl,
+                  })
+                }
                 onAddToCart={() => setSelectedProduct(coffee.title)}
               />
             ))}
@@ -108,8 +115,6 @@ export default function HomeScreen() {
             <Text style={styles.cartMessage}>{selectedProduct} added to cart</Text>
           ) : null}
         </ScrollView>
-
-        <BottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />
       </View>
     </View>
   );

@@ -1,32 +1,63 @@
 # CoffeeGo
 
-CoffeeGo is a React Native Expo homework project that builds a reusable component structure for a coffee ordering app.
+CoffeeGo is a React Native Expo homework project for practicing React Navigation in a coffee ordering app. The app uses plain React Navigation with stack, bottom tab, and drawer navigators.
 
-## Implemented Components
+## Navigation Structure
 
-- CustomButton
-- CategoryChip
-- SearchBar
-- ProductCard
-- Header
-- BottomNavigation
-- OrderInfoCard
+- Drawer Navigator: wraps the app and provides access to CoffeeGo, Settings, Help, and Contact.
+- Stack Navigator: handles drill-down navigation from the main tabs to Product Details.
+- Bottom Tab Navigator: provides the main app sections in this order: Home, Orders, Cart, Profile.
 
-## Adaptive Design
+## Screens
 
-The home screen uses a centered app shell with a maximum width of 430px for web, while keeping the layout full width on mobile devices. Product cards use `useWindowDimensions` to calculate a responsive width, so they adapt to smaller screens and stay readable on wider screens. The header also uses `Platform.select()` to apply small platform-specific spacing differences for iOS and Android.
+- Home
+- Product Details
+- Cart
+- Orders
+- Profile
+- Settings
+- Help
+- Contact
 
-## Props Usage
+## Route Params Example
 
-Components receive data and behavior through props. For example, `CustomButton` receives `title` and `onPress`, `CategoryChip` receives `title`, `active`, and `onPress`, and `ProductCard` receives `title`, `price`, `imageUrl`, and `onAddToCart`. This keeps the UI components reusable across screens.
+When a product card is pressed on Home, the app opens Product Details and passes product data:
 
-## Run The Project
+```js
+navigation.navigate(SCREENS.PRODUCT_DETAILS, {
+  id: coffee.id,
+  title: coffee.title,
+  price: coffee.price,
+  imageUrl: coffee.imageUrl,
+});
+```
+
+`ProductDetailsScreen` reads this data from `route.params` and shows a safe fallback if the params are missing.
+
+## Adaptive Design Notes
+
+The Home screen uses a centered app shell with a maximum width of 430px for web while staying full width on mobile. Product cards calculate their width with `useWindowDimensions`, keeping the layout readable on small screens and controlled on wider screens.
+
+## Run Instructions
 
 ```bash
 npm install
 npm run web
 ```
 
-# Homescreen
+For native Expo Go testing:
 
-![HomeScreen](assets/homescreen.png)
+```bash
+npm start
+```
+
+## Screenshots
+
+### Home Screen
+![Home screen](assets/homescreen.png)
+
+### Product Details Screen
+![Product details](assets/product-details.png)
+
+### Drawer Navigation
+![Drawer navigation](assets/drawer.png)
